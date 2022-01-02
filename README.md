@@ -1,11 +1,17 @@
 # maven-client
 ## Description
-This CLI reads a list of maven group artifact version (GAV) coordinates and returns an ordered list of first order and transitive dependencies within the runtime and compile scopes.
+This CLI reads a list of maven group artifact version (GAV) coordinates and returns an ordered list of first order and transitive GAV coordinates within the runtime and compile scopes.
+
+example
+
+maven-client -config config.txt -input input.txt
 ## Command line flags
-- TODO
-- TODO
+- config
+- input
+
+Both flags expect a path to a respective file
 ## Config
-- repo url
+- repourl
 - username
 - password
 ## Input
