@@ -62,6 +62,7 @@ type Dependency struct {
 	ArtifactId string `xml:"artifactId"`
 	Version    string `xml:"version"`
 	Scope      string `xml:"scope"`
+	Optional   bool   `xml:"optional"`
 }
 
 func (d *Dependency) GavForm() string {

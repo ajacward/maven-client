@@ -146,7 +146,11 @@ func queryCoordinate(coordinate string, config Config, dependencies map[string]m
 				dependency.Scope = defaultString(inheritedValues.Scope, "compile")
 			}
 
-			if dependency.Scope == "compile" || dependency.Scope == "runtime" {
+			if !dependency.Optional {
+				dependency.Optional = inheritedValues.Optional
+			}
+
+			if (dependency.Scope == "compile" || dependency.Scope == "runtime") && !dependency.Optional {
 				r, _ := regexp.Compile(`\$\{(.+)\}`)
 
 				if strings.Contains(dependency.GroupId, "${") {
