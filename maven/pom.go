@@ -8,22 +8,22 @@ import (
 )
 
 type mavenCoordinate struct {
-	group    string
-	artifact string
-	version  string
+	Group    string
+	Artifact string
+	Version  string
 }
 
 func (mc *mavenCoordinate) UrlPath() string {
-	return fmt.Sprintf("%[1]s/%[2]s/%[3]s/%[2]s-%[3]s", strings.ReplaceAll(mc.group, ".", "/"), mc.artifact, mc.version)
+	return fmt.Sprintf("%[1]s/%[2]s/%[3]s/%[2]s-%[3]s", strings.ReplaceAll(mc.Group, ".", "/"), mc.Artifact, mc.Version)
 }
 
 func NewMavenCoordinate(gav string) mavenCoordinate {
 	coords := strings.Split(gav, ":")
 
 	mc := mavenCoordinate{
-		group:    coords[0],
-		artifact: coords[1],
-		version:  coords[2],
+		Group:    coords[0],
+		Artifact: coords[1],
+		Version:  coords[2],
 	}
 
 	return mc
@@ -34,7 +34,7 @@ type Project struct {
 	GroupId              string               `xml:"groupId"`
 	ArtifactId           string               `xml:"artifactId"`
 	Version              string               `xml:"version"`
-	Dependencies         Dependencies         `xml:"dependencies"`
+	Dependencies         []Dependency         `xml:"dependencies>dependency"`
 	DependencyManagement DependencyManagement `xml:"dependencyManagement"`
 	Properties           Properties           `xml:"properties"`
 }
@@ -53,16 +53,18 @@ func (p *Parent) GavForm() string {
 	return fmt.Sprintf("%s:%s:%s", p.GroupId, p.ArtifactId, p.Version)
 }
 
-type Dependencies struct {
-	Dependency []Dependency `xml:"dependency"`
+type Dependency struct {
+	GroupId    string      `xml:"groupId"`
+	ArtifactId string      `xml:"artifactId"`
+	Version    string      `xml:"version"`
+	Scope      string      `xml:"scope"`
+	Optional   bool        `xml:"optional"`
+	Exclusions []Exclusion `xml:"exclusions>exclusion"`
 }
 
-type Dependency struct {
+type Exclusion struct {
 	GroupId    string `xml:"groupId"`
 	ArtifactId string `xml:"artifactId"`
-	Version    string `xml:"version"`
-	Scope      string `xml:"scope"`
-	Optional   bool   `xml:"optional"`
 }
 
 func (d *Dependency) GavForm() string {
@@ -70,7 +72,7 @@ func (d *Dependency) GavForm() string {
 }
 
 type DependencyManagement struct {
-	Dependencies Dependencies `xml:"dependencies"`
+	Dependencies []Dependency `xml:"dependencies>dependency"`
 }
 
 type Properties map[string]string
