@@ -148,11 +148,11 @@ func queryCoordinate(coordinate string, exclusions []maven.Exclusion, config Con
 			queryCoordinate(project.Parent.GavForm(), []maven.Exclusion{}, config, dependencies)
 		}
 
-		parent := dependencies[project.Parent.GavForm()]
+		parent, parentPrs := dependencies[project.Parent.GavForm()]
 
 		props := buildProps(project, dependencies)
 
-		if len(exclusions) == 0 {
+		if len(exclusions) == 0 && parentPrs {
 			exclusions = findInheritedValues(maven.Dependency{GroupId: project.GroupId, ArtifactId: project.ArtifactId}, parent, dependencies).Exclusions
 		}
 
