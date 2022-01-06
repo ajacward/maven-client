@@ -12,7 +12,7 @@ func TestDefaultString(t *testing.T) {
 	for _, c := range cases {
 		got := defaultString(c.a, c.b)
 		if got != c.want {
-			t.Errorf("ReverseRunes(%q, %q) == %q, want %q", c.a, c.b, got, c.want)
+			t.Errorf("defaultString(%q, %q) == %q, want %q", c.a, c.b, got, c.want)
 		}
 	}
 }

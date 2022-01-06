@@ -30,7 +30,7 @@ func main() {
 	dependencies := make(map[string]maven.Project)
 
 	for _, coordinate := range config.readInput() {
-		queryCoordinate(coordinate, []maven.Exclusion{}, config, dependencies)
+		queryCoordinate(coordinate, config, dependencies)
 	}
 
 	writeCoordinates(dependencies)
